@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory System</title>
+</head>
+<body>
+
+    <h1>Inventory System</h1>
+
+    <h2>Products</h2>
+
+    {% if products %}
+        <ul>
+            {% for product in products %}
+                <li>
+                    {{ product.name }} -
+                    ₱{{ product.price }} -
+                    Stock: {{ product.stock }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+
+</body>
+</html>
