@@ -32,3 +32,9 @@ def edit_product(request, product_id):
         return redirect('home')
 
     return render(request, 'edit_product.html', {'product':product})
+
+def delete_product(reqeust,product_id):
+    product=Product.objects.get(id=product_id)
+    product.delete()
+
+    return redirect('home')
