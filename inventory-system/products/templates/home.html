@@ -11,13 +11,15 @@
 
     {% if products %}
         <ul>
-            {% for product in products %}
-                <li>
-                    {{ product.name }} -
-                    ₱{{ product.price }} -
-                    Stock: {{ product.stock }}
-                </li>
-            {% endfor %}
+           {% for product in products %}
+    <li>
+        {{ product.name }} -
+        ₱{{ product.price }} -
+        Stock: {{ product.stock }}
+
+        <a href="{% url 'edit_product' product.id %}">Edit</a>
+    </li>
+{% endfor %}
         </ul>
     {% else %}
         <p>No products available.</p>
