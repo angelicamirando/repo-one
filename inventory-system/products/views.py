@@ -5,13 +5,25 @@ from django.db.models import Sum
 
 def home(request):
     query = request.GET.get('q')
+    sort_by = request.GET.get('sort', 'name')
+    allowed_sort_fields = ['name', 'price', 'stock']
+   
+    if sort_by not in allowed_sort_fields:
+        sort_by = 'name'
 
     if query:
         products = Product.objects.filter(name__icontains=query)
+        
+       
     else:
         products = Product.objects.all()
-        total_products = Product.objects.count()
-        total_stock = Product.objects.aggregate(Sum('stock'))['stock__sum'] or 0
+    
+    products = products.order_by(sort_by)
+   
+    total_products = Product.objects.count()
+    total_stock = Product.objects.aggregate(Sum('stock'))['stock__sum'] or 0
+         
+        
     return render(request, 'home.html',  {'products': products,
         'total_products': total_products,
         'total_stock': total_stock,})
