@@ -1,9 +1,21 @@
 from django.shortcuts import render, redirect
 from .models import Product
+from django.db.models import Sum
+
 
 def home(request):
-    products = Product.objects.all()
-    return render(request, 'home.html', {'products': products})
+    query = request.GET.get('q')
+
+    if query:
+        products = Product.objects.filter(name__icontains=query)
+    else:
+        products = Product.objects.all()
+        total_products = Product.objects.count()
+        total_stock = Product.objects.aggregate(Sum('stock'))['stock__sum'] or 0
+    return render(request, 'home.html',  {'products': products,
+        'total_products': total_products,
+        'total_stock': total_stock,})
+
 
 def add_product(request):
      if request.method == 'POST':
